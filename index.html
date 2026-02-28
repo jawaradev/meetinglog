@@ -2,202 +2,257 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MeetingLog Pro - Attendance System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MeetingLog Pro - Admin Dashboard</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
+        .filament-shadow { box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05), 0px 20px 25px -5px rgba(0, 0, 0, 0.05); }
+        .nav-active { background-color: white; color: #f97316; shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .animate-card {
-            animation: fadeInUp 0.4s ease-out forwards;
-        }
-        .filament-shadow { box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06); }
-        .lucide { width: 20px; height: 20px; vertical-align: middle; }
+        .animate-card { animation: fadeInUp 0.4s ease-out forwards; }
+        
+        /* Custom Scrollbar for list */
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
     </style>
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        primary: '#f97316',
-                        secondary: '#fff7ed',
-                    },
-                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                    colors: { primary: '#f97316', secondary: '#fff7ed' }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-[#f3f4f6] min-h-screen text-gray-900">
+<body class="min-h-screen pb-24 md:pb-8">
 
-    <header class="bg-white filament-shadow sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+        <div class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <div class="bg-primary p-2 rounded-lg text-white shadow-lg shadow-orange-200">
-                    <i data-lucide="calendar-check"></i>
+                <div class="bg-primary p-2 rounded-xl text-white shadow-lg shadow-orange-200">
+                    <i data-lucide="layout-grid" class="w-5 h-5"></i>
                 </div>
-                <h1 class="text-xl font-extrabold tracking-tight">Meeting<span class="text-primary">Log</span></h1>
+                <h1 class="text-xl font-black tracking-tighter">Meeting<span class="text-primary">Log</span></h1>
             </div>
-            <nav class="flex bg-gray-100 p-1 rounded-xl">
-                <button onclick="switchTab('absensi')" id="btn-absensi" class="px-6 py-2 rounded-lg text-sm font-semibold flex items-center gap-2">
-                    <i data-lucide="users"></i> Client
+            
+            <nav class="hidden md:flex bg-gray-100 p-1.5 rounded-2xl border border-gray-200">
+                <button onclick="switchTab('absensi')" id="nav-absensi-d" class="nav-link px-6 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all">
+                    <i data-lucide="monitor" class="w-4 h-4"></i> Monitoring
                 </button>
-                <button onclick="switchTab('admin')" id="btn-admin" class="px-6 py-2 rounded-lg text-sm font-semibold bg-white text-primary shadow-sm flex items-center gap-2">
-                    <i data-lucide="layout-dashboard"></i> Dashboard
+                <button onclick="switchTab('admin')" id="nav-admin-d" class="nav-link px-6 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all">
+                    <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Dashboard
                 </button>
-                <button onclick="switchTab('pegawai')" id="btn-pegawai" class="px-6 py-2 rounded-lg text-sm font-semibold flex items-center gap-2">
-                    <i data-lucide="users-2"></i> Data Pegawai
+                <button onclick="switchTab('pegawai')" id="nav-pegawai-d" class="nav-link px-6 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all">
+                    <i data-lucide="users" class="w-4 h-4"></i> Database
                 </button>
             </nav>
+
+            <div class="flex items-center gap-3">
+                <span class="hidden md:block text-[10px] font-black text-gray-400 uppercase tracking-widest">Admin Mode</span>
+                <div class="w-8 h-8 rounded-full bg-orange-100 border border-orange-200"></div>
+            </div>
         </div>
     </header>
 
-    <main class="container mx-auto px-4 py-8 max-w-6xl">
+    <main class="container mx-auto px-4 py-6 md:py-8 max-w-6xl">
         
-        <section id="tab-admin" class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-3xl filament-shadow border border-gray-100 flex items-center gap-4">
-                    <div class="bg-orange-100 p-4 rounded-2xl text-primary">
+        <section id="tab-admin" class="space-y-6 animate-card">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                <div class="bg-white p-6 rounded-[2rem] filament-shadow border border-gray-50 flex items-center gap-5">
+                    <div class="bg-orange-100 p-4 rounded-2xl text-primary flex-shrink-0">
                         <i data-lucide="user-check" class="w-8 h-8"></i>
                     </div>
                     <div>
-                        <p id="count-hadir" class="text-2xl font-bold">0</p>
-                        <p class="text-gray-500 text-xs font-medium uppercase tracking-wider">Total Hadir</p>
+                        <p id="count-hadir" class="text-3xl font-black text-gray-800">0</p>
+                        <p class="text-gray-400 text-[10px] font-black uppercase tracking-widest">Hadir Hari Ini</p>
                     </div>
                 </div>
                 
-                <div class="bg-white p-6 rounded-3xl filament-shadow border border-gray-100 flex flex-col items-center justify-center relative group">
-                    <div id="qrcode-container" class="mb-2"></div>
-                    <div class="flex items-center gap-2 text-[10px] text-gray-400 font-mono">
-                        <i data-lucide="link" class="w-3 h-3"></i>
-                        <span id="client-url-text">Menyiapkan Link...</span>
+                <div class="bg-white p-6 rounded-[2rem] filament-shadow border border-gray-50 flex flex-col items-center justify-center">
+                    <div id="qrcode-container" class="bg-white p-2 rounded-xl border border-gray-100 mb-3"></div>
+                    <div class="flex items-center gap-2 text-[9px] text-gray-400 font-bold uppercase tracking-tighter">
+                        <i data-lucide="qr-code" class="w-3 h-3"></i>
+                        <span id="client-url-text">Menyiapkan...</span>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-3xl filament-shadow border border-gray-100 flex flex-col justify-center gap-3">
-                    <button onclick="toggleAbsensi(true)" id="btn-buka-presensi" class="w-full bg-primary text-white py-3 rounded-2xl font-bold flex items-center justify-center gap-2 hover:brightness-110 transition-all">
-                        <i data-lucide="lock-open"></i> Buka Presensi
+                <div class="bg-white p-6 rounded-[2rem] filament-shadow border border-gray-50 flex flex-col gap-3 justify-center">
+                    <button id="btn-buka" onclick="toggleAbsensi(true)" class="w-full bg-primary text-white py-4 rounded-2xl font-black text-sm shadow-lg shadow-orange-100 active:scale-95 transition-all">
+                        BUKA PRESENSI
                     </button>
-                    <button onclick="toggleAbsensi(false)" id="btn-tutup-presensi" class="w-full bg-gray-800 text-white py-3 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-black transition-all hidden">
-                        <i data-lucide="lock"></i> Tutup Sesi
+                    <button id="btn-tutup" onclick="toggleAbsensi(false)" class="w-full bg-gray-900 text-white py-4 rounded-2xl font-black text-sm shadow-lg active:scale-95 transition-all" style="display: none;">
+                        TUTUP & KUNCI
                     </button>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="bg-white p-8 rounded-[2rem] filament-shadow">
-                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
-                        <i data-lucide="pen-tool" class="text-primary"></i> Buat Notulensi
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+                <div class="bg-white p-6 md:p-8 rounded-[2.5rem] filament-shadow border border-gray-50">
+                    <h3 class="text-lg font-black mb-6 flex items-center gap-2 text-gray-800 uppercase tracking-tight">
+                        <i data-lucide="edit-3" class="text-primary w-5 h-5"></i> Ringkasan Rapat
                     </h3>
                     <div class="space-y-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="relative">
-                                <i data-lucide="user" class="absolute left-4 top-4 text-gray-400 w-4 h-4"></i>
-                                <input type="text" id="notul-pembicara" placeholder="Pembicara" class="w-full pl-11 p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-400 outline-none">
-                            </div>
-                            <div class="relative">
-                                <i data-lucide="tag" class="absolute left-4 top-4 text-gray-400 w-4 h-4"></i>
-                                <input type="text" id="notul-materi" placeholder="Topik" class="w-full pl-11 p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-400 outline-none">
-                            </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <input type="text" id="notul-pembicara" placeholder="Nama Pembicara" class="w-full p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-400 outline-none font-semibold text-sm">
+                            <input type="text" id="notul-materi" placeholder="Topik Pembahasan" class="w-full p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-400 outline-none font-semibold text-sm">
                         </div>
-                        <textarea id="notul-isi" placeholder="Poin pembahasan..." class="w-full p-4 bg-gray-50 border-none rounded-2xl h-32 focus:ring-2 focus:ring-orange-400 outline-none"></textarea>
-                        <div class="bg-orange-50 rounded-2xl p-2">
-                            <textarea id="notul-keputusan" placeholder="Keputusan akhir (opsional)..." class="w-full p-3 bg-transparent border-none focus:ring-0 outline-none h-20 text-orange-900 font-medium"></textarea>
+                        <textarea id="notul-isi" placeholder="Apa saja yang dibahas?..." class="w-full p-4 bg-gray-50 border-none rounded-2xl h-32 focus:ring-2 focus:ring-orange-400 outline-none font-medium text-sm"></textarea>
+                        
+                        <div class="bg-orange-50/50 border border-orange-100 rounded-[1.5rem] p-2">
+                            <textarea id="notul-keputusan" placeholder="Tulis keputusan final di sini..." class="w-full p-3 bg-transparent border-none focus:ring-0 outline-none h-20 text-orange-900 font-bold text-sm"></textarea>
                         </div>
-                        <button onclick="simpanNotulensi()" class="w-full bg-primary text-white py-4 rounded-2xl font-bold text-lg shadow-lg shadow-orange-200 flex items-center justify-center gap-2">
-                            <i data-lucide="save"></i> Simpan Data
+                        
+                        <button onclick="simpanNotulensi()" class="w-full bg-primary text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-orange-100 flex items-center justify-center gap-3 active:scale-95 transition-all">
+                            <i data-lucide="check-circle-2"></i> SIMPAN & ARCHIVE
                         </button>
                     </div>
                 </div>
 
-                <div class="space-y-4">
-                    <h3 class="text-xl font-bold flex items-center gap-2">
-                        <i data-lucide="list-checks" class="text-primary"></i> Kehadiran Terbaru
+                <div class="space-y-4 flex flex-col">
+                    <h3 class="text-lg font-black flex items-center gap-2 px-2 text-gray-800 uppercase tracking-tight">
+                        <i data-lucide="zap" class="text-primary w-5 h-5"></i> Real-time Feed
                     </h3>
-                    <div id="list-kehadiran" class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
+                    <div id="list-kehadiran" class="space-y-3 custom-scroll overflow-y-auto max-h-[400px] md:max-h-[500px] pr-2">
                         </div>
                 </div>
             </div>
             
-            <div class="mt-12">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-xl font-bold flex items-center gap-2">
-                        <i data-lucide="archive" class="text-primary"></i> Riwayat Pembahasan
+            <div class="pt-8">
+                <div class="flex items-center justify-between mb-6 px-2">
+                    <h3 class="text-lg font-black flex items-center gap-2 text-gray-800 uppercase tracking-tight">
+                        <i data-lucide="history" class="text-primary w-5 h-5"></i> Arsip Pembahasan
                     </h3>
-                    <span id="count-notulensi" class="text-xs bg-gray-200 text-gray-600 px-3 py-1 rounded-full font-medium">
-                        Total: 0 Records
+                    <span id="count-notulensi" class="text-[10px] bg-white border border-gray-200 text-gray-400 px-4 py-1.5 rounded-full font-black uppercase tracking-widest">
+                        Total: 0
                     </span>
                 </div>
-                <div id="container-notulensi" class="grid grid-cols-1 gap-8">
+                <div id="container-notulensi" class="grid grid-cols-1 gap-6 pb-12">
                     </div>
             </div>
 
-            <div class="mt-10 p-6 bg-red-50 rounded-[2rem] border border-red-100 flex items-center justify-between">
-                <div>
-                    <h4 class="text-red-800 font-bold flex items-center gap-2">
-                        <i data-lucide="alert-triangle" class="w-5 h-5"></i> Danger Zone
+            <div class="p-6 bg-red-50 rounded-[2rem] border border-red-100 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="text-center md:text-left">
+                    <h4 class="text-red-700 font-black flex items-center justify-center md:justify-start gap-2 text-sm uppercase tracking-wider">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i> Danger Zone
                     </h4>
-                    <p class="text-red-600/70 text-xs">Hapus seluruh data absensi dan riwayat notulensi secara permanen.</p>
+                    <p class="text-red-400 text-[10px] font-bold mt-1">Hapus semua data kehadiran & notulensi secara permanen.</p>
                 </div>
-                <button onclick="clearDatabase()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-2xl font-bold text-sm transition-all shadow-lg shadow-red-200 flex items-center gap-2">
-                    <i data-lucide="trash-2" class="w-4 h-4"></i> Reset Database
+                <button onclick="clearDatabase()" class="w-full md:w-auto bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-xl font-black text-xs transition-all shadow-lg active:scale-95">
+                    RESET SEMUA DATA
                 </button>
             </div>
         </section>
 
-        <section id="tab-absensi" class="hidden max-w-4xl mx-auto py-10">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-extrabold text-gray-800">Presensi Peserta</h2>
-                <div id="absensi-status-container">
-                     <p id="absensi-status" class="mt-2 p-3 rounded-xl bg-gray-100 text-gray-500 text-sm italic border border-gray-200 inline-block">Sesi absensi belum dibuka.</p>
-                </div>
-            </div>
-            <div id="grid-presensi-peserta" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                </div>
-        </section>
-
-        <section id="tab-pegawai" class="hidden space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div class="bg-white p-8 rounded-[2rem] filament-shadow border border-gray-100">
-                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
-                    <i data-lucide="user-plus" class="text-primary"></i> Registrasi Pegawai
+        <section id="tab-pegawai" class="hidden space-y-8 animate-card">
+            <div class="bg-white p-6 md:p-8 rounded-[2.5rem] filament-shadow border border-gray-50">
+                <h3 class="text-lg font-black mb-6 flex items-center gap-2">
+                    <i data-lucide="user-plus" class="text-primary"></i> Tambah Pegawai Baru
                 </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <input id="p-nama" placeholder="Nama Lengkap" class="p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-400 outline-none">
-                    <input id="p-username" placeholder="Username" class="p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-400 outline-none">
-                    <input id="p-password" type="password" placeholder="Password" class="p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-400 outline-none">
-                    <input id="p-jabatan" placeholder="Jabatan" class="p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-400 outline-none">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <input id="p-nama" placeholder="Nama Lengkap" class="p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-400 outline-none text-sm font-semibold">
+                    <input id="p-username" placeholder="Username" class="p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-400 outline-none text-sm font-semibold">
+                    <input id="p-password" type="password" placeholder="Password" class="p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-400 outline-none text-sm font-semibold">
+                    <input id="p-jabatan" placeholder="Jabatan" class="p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-400 outline-none text-sm font-semibold">
                 </div>
-                <button onclick="simpanPegawai()" class="mt-6 w-full md:w-auto bg-primary text-white px-10 py-4 rounded-2xl font-bold shadow-lg shadow-orange-200">
-                    Simpan Pegawai
+                <button onclick="simpanPegawai()" class="mt-6 w-full md:w-auto bg-gray-900 text-white px-10 py-4 rounded-2xl font-black text-sm shadow-xl active:scale-95">
+                    SIMPAN KE DATABASE
                 </button>
             </div>
 
             <div class="space-y-4">
-                <h3 class="text-xl font-bold flex items-center gap-2">
-                    <i data-lucide="database" class="text-primary"></i> Database Pegawai
+                <h3 class="text-lg font-black flex items-center gap-2 px-2">
+                    <i data-lucide="database" class="text-primary"></i> Master Data Pegawai
                 </h3>
-                <div id="list-master-pegawai" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div id="list-master-pegawai" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    </div>
+            </div>
+        </section>
+
+        <section id="tab-absensi" class="hidden animate-card">
+            <div class="bg-white rounded-[2.5rem] p-8 filament-shadow border border-gray-50 text-center">
+                <h2 class="text-2xl font-black text-gray-800">Live Attendance Monitor</h2>
+                <div id="absensi-status-container" class="mt-3">
+                    <p id="absensi-status" class="px-4 py-1.5 rounded-full bg-gray-100 text-gray-400 text-[10px] font-black uppercase tracking-widest inline-block">
+                        Status Menghubungkan...
+                    </p>
+                </div>
+                
+                <div id="grid-presensi-peserta" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
                     </div>
             </div>
         </section>
 
     </main>
 
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-gray-100 px-6 py-3 z-[60] flex justify-between items-center shadow-[0_-10px_20px_rgba(0,0,0,0.05)]">
+        <button onclick="switchTab('absensi')" id="nav-absensi-m" class="flex flex-col items-center gap-1 text-gray-400 transition-all">
+            <i data-lucide="monitor" class="w-5 h-5"></i>
+            <span class="text-[8px] font-black uppercase tracking-tighter">Live</span>
+        </button>
+        <button onclick="switchTab('admin')" id="nav-admin-m" class="flex flex-col items-center gap-1 text-primary transition-all">
+            <div class="bg-orange-100 p-2 rounded-xl">
+                <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+            </div>
+        </button>
+        <button onclick="switchTab('pegawai')" id="nav-pegawai-m" class="flex flex-col items-center gap-1 text-gray-400 transition-all">
+            <i data-lucide="users" class="w-5 h-5"></i>
+            <span class="text-[8px] font-black uppercase tracking-tighter">Data</span>
+        </button>
+    </nav>
+
     <script type="module" src="app.js"></script>
+    <script>
+        // Simple Tab Switcher for Responsive UI
+        window.switchTab = function(tabName) {
+            // Hide all sections
+            ['tab-admin', 'tab-pegawai', 'tab-absensi'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            // Show target
+            document.getElementById('tab-' + tabName).classList.remove('hidden');
+
+            // Reset all nav styles
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('nav-active', 'bg-white', 'text-primary', 'shadow-sm'));
+            
+            // Update Desktop Nav
+            const dNav = document.getElementById(`nav-${tabName}-d`);
+            if(dNav) dNav.classList.add('nav-active', 'bg-white', 'text-primary', 'shadow-sm');
+
+            // Update Mobile Nav
+            const mNavs = ['absensi', 'admin', 'pegawai'];
+            mNavs.forEach(m => {
+                const el = document.getElementById(`nav-${m}-m`);
+                if(m === tabName) {
+                    el.classList.add('text-primary');
+                    el.classList.remove('text-gray-400');
+                } else {
+                    el.classList.remove('text-primary');
+                    el.classList.add('text-gray-400');
+                }
+            });
+            
+            lucide.createIcons();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize icons on load
+        window.addEventListener('load', () => {
+            lucide.createIcons();
+            // Default tab
+            switchTab('admin');
+        });
+    </script>
 </body>
 </html>
