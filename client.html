@@ -2,11 +2,13 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Portal Pegawai - MeetingLog</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             theme: {
@@ -17,66 +19,89 @@
             }
         }
     </script>
+
     <style>
-        .filament-shadow { box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06); }
-        body { background-color: #f3f4f6; }
-        .animate-pop { animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        body { background-color: #f8fafc; -webkit-tap-highlight-color: transparent; }
+        .filament-shadow { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05); }
+        .animate-pop { animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes pop { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="min-h-screen p-4 flex flex-col items-center">
+<body class="min-h-screen flex flex-col items-center pb-10">
 
-    <div id="login-box" class="w-full max-w-md mt-10 md:mt-20 transition-all duration-500">
-        <div class="flex items-center justify-center gap-2 mb-8">
-            <div class="bg-primary p-2 rounded-lg text-white shadow-lg shadow-orange-200">
-                <i data-lucide="lock"></i>
+    <div id="login-box" class="w-full max-w-[90%] sm:max-w-md mt-16 md:mt-24 transition-all duration-500">
+        <div class="flex flex-col items-center mb-8">
+            <div class="bg-primary p-4 rounded-3xl text-white shadow-xl shadow-orange-200 mb-4 animate-pop">
+                <i data-lucide="shield-check" class="w-8 h-8"></i>
             </div>
-            <h1 class="text-2xl font-extrabold text-gray-800">Meeting<span class="text-primary">Log</span></h1>
+            <h1 class="text-3xl font-extrabold text-gray-800 tracking-tight">Meeting<span class="text-primary">Log</span></h1>
+            <p class="text-gray-400 text-sm font-medium mt-1">Silakan masuk ke portal pegawai</p>
         </div>
+
         <div class="bg-white rounded-[2.5rem] p-8 filament-shadow border border-gray-100">
             <div class="space-y-4">
-                <input type="text" id="user" placeholder="Username" class="w-full p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-400 outline-none font-semibold">
-                <input type="password" id="pass" placeholder="Password" class="w-full p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-400 outline-none font-semibold">
-                <button id="btn-login" class="w-full bg-primary text-white py-4 rounded-2xl font-bold text-lg shadow-lg shadow-orange-100">Masuk Portal</button>
+                <div class="relative">
+                    <i data-lucide="user" class="absolute left-4 top-4 text-gray-300 w-5 h-5"></i>
+                    <input type="text" id="user" placeholder="Username" class="w-full pl-12 p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-400 outline-none font-semibold transition-all">
+                </div>
+                <div class="relative">
+                    <i data-lucide="key-round" class="absolute left-4 top-4 text-gray-300 w-5 h-5"></i>
+                    <input type="password" id="pass" placeholder="Password" class="w-full pl-12 p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-400 outline-none font-semibold transition-all">
+                </div>
+                <button id="btn-login" class="w-full bg-primary text-white py-5 rounded-2xl font-bold text-lg shadow-lg shadow-orange-100 active:scale-95 transition-transform flex items-center justify-center gap-2">
+                    Masuk Sekarang <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
             </div>
         </div>
     </div>
 
-    <div id="content-client" class="hidden w-full max-w-2xl space-y-6 animate-pop">
-        <div class="flex justify-between items-center bg-white p-6 rounded-3xl filament-shadow border border-gray-100">
-            <div class="flex items-center gap-3">
-                <div class="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center text-primary">
-                    <i data-lucide="user-circle"></i>
+    <div id="content-client" class="hidden w-full max-w-2xl space-y-6 animate-pop px-4 mt-6">
+        
+        <div class="flex justify-between items-center bg-white p-5 rounded-[2rem] filament-shadow border border-gray-100">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-orange-100">
+                    <i data-lucide="user" class="w-7 h-7"></i>
                 </div>
                 <div>
-                    <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-none mb-1">Selamat Datang</p>
-                    <h3 id="display-nama" class="font-bold text-gray-800 text-lg">Nama Pegawai</h3>
+                    <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest leading-none mb-1">Anggota Tim</p>
+                    <h3 id="display-nama" class="font-bold text-gray-800 text-lg leading-tight">Nama Pegawai</h3>
+                    <p id="display-jabatan" class="text-[10px] text-orange-500 font-bold uppercase">Jabatan</p>
                 </div>
             </div>
-            <button onclick="location.reload()" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
-                <i data-lucide="log-out"></i>
+            <button onclick="location.reload()" class="p-3 bg-gray-50 text-gray-400 hover:text-red-500 rounded-2xl transition-all active:scale-90">
+                <i data-lucide="power" class="w-5 h-5"></i>
             </button>
         </div>
 
-        <div id="section-presensi" class="bg-white rounded-[2.5rem] p-8 filament-shadow border border-gray-100 text-center">
-            <h2 class="text-xl font-bold text-gray-800 mb-2">Presensi Sesi Ini</h2>
-            <p id="absensi-status" class="text-sm text-gray-500 mb-6 italic text-balance">Mengecek status absensi...</p>
-            
-            <button id="btn-absen-diri" class="hidden w-full bg-primary text-white py-5 rounded-2xl font-bold text-xl shadow-lg shadow-orange-100 flex items-center justify-center gap-3 active:scale-95 transition-transform">
-                <i data-lucide="user-check"></i> Saya Hadir
-            </button>
+        <div id="section-presensi" class="bg-white rounded-[3rem] p-8 filament-shadow border border-gray-100 text-center relative overflow-hidden">
+            <div class="relative z-10">
+                <h2 class="text-xl font-extrabold text-gray-800 mb-2">Konfirmasi Kehadiran</h2>
+                <p id="absensi-status" class="text-xs text-gray-400 mb-8 px-6 leading-relaxed italic">Menghubungkan ke server...</p>
+                
+                <button id="btn-absen-diri" class="hidden w-full bg-primary text-white py-6 rounded-[2rem] font-black text-xl shadow-xl shadow-orange-200 flex items-center justify-center gap-3 active:scale-95 transition-all">
+                    <i data-lucide="fingerprint" class="w-6 h-6"></i> ABSEN SEKARANG
+                </button>
 
-            <div id="success-absen" class="hidden animate-pop text-green-600 font-bold p-6 bg-green-50 rounded-[2rem] border border-green-100 flex flex-col items-center gap-2">
-                <i data-lucide="check-circle" class="w-12 h-12"></i>
-                <span>Kehadiran Anda Tercatat!</span>
+                <div id="success-absen" class="hidden animate-pop flex flex-col items-center gap-3">
+                    <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mb-2">
+                        <i data-lucide="check-circle-2" class="w-10 h-10"></i>
+                    </div>
+                    <span class="text-green-600 font-black text-lg">Kehadiran Tercatat!</span>
+                    <p class="text-gray-400 text-[10px] uppercase font-bold tracking-widest">Terima kasih telah bergabung</p>
+                </div>
             </div>
         </div>
 
-        <div class="space-y-4">
-            <h3 class="font-bold text-gray-800 flex items-center gap-2 px-2">
-                <i data-lucide="book-open" class="text-primary"></i> Riwayat Hasil Rapat
-            </h3>
-            <div id="container-riwayat-client" class="space-y-4 pb-10">
+        <div class="space-y-5">
+            <div class="flex items-center justify-between px-2">
+                <h3 class="font-extrabold text-gray-800 flex items-center gap-2">
+                    <i data-lucide="archive" class="text-primary w-5 h-5"></i> Hasil Rapat Terkini
+                </h3>
+                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">10 Terakhir</span>
+            </div>
+            
+            <div id="container-riwayat-client" class="space-y-4 pb-20">
                 </div>
         </div>
     </div>
@@ -85,14 +110,14 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, onValue, push, query, orderByKey, limitToLast } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // GANTI DENGAN CONFIG FIREBASE ANDA
         const firebaseConfig = {
-          apiKey: "AIzaSyAGuucmAX4S-RDGAFQ46ZXBDLy8BMP4o4A",
-          authDomain: "meetinglog-7fb47.firebaseapp.com",
-          projectId: "meetinglog-7fb47",
-          storageBucket: "meetinglog-7fb47.firebasestorage.app",
-          messagingSenderId: "831186403206",
-          appId: "1:831186403206:web:93a6cb0ba052973261b607"
+            apiKey: "AIzaSyAGuucmAX4S-RDGAFQ46ZXBDLy8BMP4o4A",
+            authDomain: "meetinglog-7fb47.firebaseapp.com",
+            databaseURL: "https://meetinglog-7fb47-default-rtdb.asia-southeast1.firebasedatabase.app", 
+            projectId: "meetinglog-7fb47",
+            storageBucket: "meetinglog-7fb47.firebasestorage.app",
+            messagingSenderId: "831186403206",
+            appId: "1:831186403206:web:93a6cb0ba052973261b607"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -100,10 +125,12 @@
 
         let currentUser = null;
 
-        // --- 1. LOGIN LOGIC ---
+        // --- LOGIN LOGIC ---
         document.getElementById('btn-login').onclick = () => {
-            const userIn = document.getElementById('user').value;
-            const passIn = document.getElementById('pass').value;
+            const userIn = document.getElementById('user').value.trim();
+            const passIn = document.getElementById('pass').value.trim();
+
+            if(!userIn || !passIn) return alert("Isi username & password!");
 
             onValue(ref(db, 'pegawai'), (snapshot) => {
                 const data = snapshot.val();
@@ -111,7 +138,6 @@
 
                 if (data) {
                     Object.entries(data).forEach(([id, val]) => {
-                        // SEKARANG MENGECEK USERNAME & PASSWORD ASLI
                         if (val.username === userIn && val.password === passIn) { 
                             currentUser = { id, ...val };
                             found = true;
@@ -122,7 +148,7 @@
                 if (found) {
                     startPortal();
                 } else {
-                    alert("Username atau Password salah!");
+                    alert("Akun tidak ditemukan atau password salah!");
                 }
             }, { onlyOnce: true });
         };
@@ -131,25 +157,24 @@
             document.getElementById('login-box').classList.add('hidden');
             document.getElementById('content-client').classList.remove('hidden');
             document.getElementById('display-nama').innerText = currentUser.nama;
+            document.getElementById('display-jabatan').innerText = currentUser.jabatan;
             
             initPresenceListener();
             initHistoryListener();
             lucide.createIcons();
         }
 
-        // --- 2. PRESENCE LOGIC ---
+        // --- PRESENCE LISTENER ---
         function initPresenceListener() {
-            // Monitor status buka/tutup absensi
             onValue(ref(db, 'status_absensi'), (snapshot) => {
                 const isOpen = snapshot.val()?.absensi_terbuka || false;
                 const statusEl = document.getElementById('absensi-status');
                 const btnAbsen = document.getElementById('btn-absen-diri');
 
                 if (isOpen) {
-                    statusEl.innerText = "Sesi sedang dibuka. Silakan konfirmasi kehadiran Anda.";
-                    statusEl.className = "text-sm text-orange-600 font-bold mb-6";
+                    statusEl.innerText = "Sesi presensi sedang aktif. Silakan tekan tombol di bawah.";
+                    statusEl.className = "text-xs text-orange-500 font-bold mb-8 italic";
                     
-                    // Cek apakah user sudah absen di sesi ini
                     onValue(ref(db, 'kehadiran'), (hSnap) => {
                         const listHadir = hSnap.val() ? Object.values(hSnap.val()) : [];
                         const sudahAbsen = listHadir.some(h => h.nama === currentUser.nama);
@@ -163,8 +188,8 @@
                         }
                     });
                 } else {
-                    statusEl.innerText = "Sesi presensi belum dibuka atau sudah ditutup.";
-                    statusEl.className = "text-sm text-gray-400 italic mb-6";
+                    statusEl.innerText = "Sesi presensi belum dibuka oleh admin.";
+                    statusEl.className = "text-xs text-gray-400 italic mb-8";
                     btnAbsen.classList.add('hidden');
                     document.getElementById('success-absen').classList.add('hidden');
                 }
@@ -179,7 +204,7 @@
             });
         };
 
-        // --- 3. HISTORY LOGIC ---
+        // --- HISTORY LISTENER ---
         function initHistoryListener() {
             const historyRef = query(ref(db, 'notulensi'), limitToLast(10));
             onValue(historyRef, (snapshot) => {
@@ -187,7 +212,8 @@
                 const container = document.getElementById('container-riwayat-client');
                 
                 if (!data) {
-                    container.innerHTML = `<p class="text-center text-gray-400 p-10 italic text-sm">Belum ada riwayat rapat.</p>`;
+                    container.innerHTML = `<div class="text-center py-12 opacity-30"><i data-lucide="folder-x" class="mx-auto w-10 h-10 mb-2"></i><p class="text-xs font-bold uppercase tracking-widest">Belum ada riwayat</p></div>`;
+                    lucide.createIcons();
                     return;
                 }
 
@@ -197,32 +223,32 @@
                     const sayaHadir = listHadir.includes(currentUser.nama);
 
                     return `
-                        <div class="bg-white p-6 rounded-[2.5rem] border border-gray-100 filament-shadow relative overflow-hidden animate-pop">
+                        <div class="bg-white p-6 rounded-[2.5rem] border border-gray-50 filament-shadow relative overflow-hidden animate-pop">
                             <div class="absolute top-0 right-8">
                                 ${sayaHadir 
-                                    ? `<div class="bg-green-500 text-white text-[9px] px-4 py-1.5 rounded-b-xl font-black uppercase tracking-widest shadow-sm flex items-center gap-1">
-                                        <i data-lucide="check" class="w-3 h-3"></i> Hadir
-                                    </div>`
-                                    : `<div class="bg-red-50 text-red-400 text-[9px] px-4 py-1.5 rounded-b-xl font-black uppercase tracking-widest border border-red-100 flex items-center gap-1">
-                                        <i data-lucide="x" class="w-3 h-3"></i> Absen
-                                    </div>`
+                                    ? `<div class="bg-green-500 text-white text-[8px] px-4 py-1.5 rounded-b-xl font-black uppercase tracking-widest shadow-md">Hadir</div>`
+                                    : `<div class="bg-red-500 text-white text-[8px] px-4 py-1.5 rounded-b-xl font-black uppercase tracking-widest">Absen</div>`
                                 }
                             </div>
+                            
                             <div class="mb-4">
-                                <span class="bg-orange-100 text-primary text-[10px] font-black px-3 py-1 rounded-lg uppercase">${item.materi}</span>
-                                <p class="text-[10px] text-gray-400 mt-2 font-bold uppercase tracking-tighter">
-                                    ${new Date(item.tanggal).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' })}
+                                <span class="bg-orange-100 text-primary text-[10px] font-black px-3 py-1 rounded-lg uppercase tracking-wider">${item.materi}</span>
+                                <p class="text-[9px] text-gray-400 mt-2 font-bold uppercase tracking-tight">
+                                    ${new Date(item.tanggal).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short' })}
                                 </p>
                             </div>
+
                             <div class="flex items-center gap-2 mb-4">
-                                <div class="w-7 h-7 bg-orange-50 rounded-full flex items-center justify-center text-primary"><i data-lucide="mic-2" class="w-3.5 h-3.5"></i></div>
-                                <p class="text-xs font-bold text-gray-700">${item.pembicara}</p>
+                                <div class="w-6 h-6 bg-orange-50 rounded-full flex items-center justify-center text-primary"><i data-lucide="mic" class="w-3 h-3"></i></div>
+                                <p class="text-[11px] font-bold text-gray-700">${item.pembicara}</p>
                             </div>
-                            <div class="bg-gray-50 p-4 rounded-2xl text-sm text-gray-600 mb-4 border border-gray-100 leading-relaxed italic">"${item.isi}"</div>
+
+                            <div class="bg-gray-50 p-4 rounded-2xl text-[13px] text-gray-600 mb-4 border border-gray-100 leading-relaxed italic">"${item.isi}"</div>
+
                             ${item.keputusan ? `
-                                <div class="bg-gray-800 text-white p-4 rounded-2xl text-xs font-bold flex items-center gap-3">
-                                    <i data-lucide="gavel" class="w-4 h-4 text-orange-400"></i>
-                                    <p>${item.keputusan}</p>
+                                <div class="bg-gray-900 text-white p-4 rounded-2xl text-[11px] font-bold flex items-start gap-3">
+                                    <i data-lucide="gavel" class="w-4 h-4 text-orange-400 shrink-0 mt-0.5"></i>
+                                    <p class="leading-tight">${item.keputusan}</p>
                                 </div>
                             ` : ''}
                         </div>
@@ -235,5 +261,4 @@
         lucide.createIcons();
     </script>
 </body>
-
 </html>
