@@ -4,12 +4,12 @@ import { getDatabase, ref, set, push, onValue, remove } from "https://www.gstati
 // --- CONFIG FIREBASE ---
 // Ganti dengan data asli dari Firebase Console Anda
 const firebaseConfig = {
-    apiKey: "AIzaSy...",
-    authDomain: "projek-anda.firebaseapp.com",
-    databaseURL: "https://projek-anda-default-rtdb.firebaseio.com",
-    projectId: "projek-anda",
-    storageBucket: "projek-anda.appspot.com",
-    appId: "..."
+    apiKey: "AIzaSyAGuucmAX4S-RDGAFQ46ZXBDLy8BMP4o4A",
+    authDomain: "meetinglog-7fb47.firebaseapp.com",
+    projectId: "meetinglog-7fb47",
+    storageBucket: "meetinglog-7fb47.firebasestorage.app",
+    messagingSenderId: "831186403206",
+    appId: "1:831186403206:web:93a6cb0ba052973261b607"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -224,4 +224,5 @@ function generateQRCode() {
 }
 
 // Inisialisasi awal
+
 lucide.createIcons();
