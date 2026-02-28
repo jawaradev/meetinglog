@@ -1,0 +1,20 @@
+{
+  "pegawai": {
+    "p1": { "nama": "Deny Historiningtyas", "username": "deny", "password": "jawara1", "jabatan": "Kepala Sekolah" },
+    "p2": { "nama": "Ali Akbar Nada Firmana", "username": "akbar", "password": "ibrahim123", "jabatan": "Staff IT" },
+    "p3": { "nama": "Frisca Lidya Amelia", "username": "frisca", "password": "admin123", "jabatan": "Staff IT" }
+  },
+  "status_absensi": {
+    "absensi_terbuka": false
+  },
+  "notulensi": {
+    "n1": {
+      "pembicara": "Deny Historiningtyas",
+      "materi": "Evaluasi Bulanan",
+      "isi": "Pembahasan target kuartal pertama yang sudah mencapai 80%. Perlu peningkatan di sektor promosi digital.",
+      "keputusan": "Anggaran iklan sosmed ditambah 20%.",
+      "daftar_hadir": "Deny Historiningtyas, Frisca Lidya Amelia, Ali Akbar Nada Firmana",
+      "tanggal": "2026-02-25T09:00:00.000Z"
+    }
+  }
+}
